@@ -53,7 +53,7 @@ public class BichoController {
 
     @PostMapping("/BichoPost/post")
     public ResponseEntity<Bicho> newBicho(@RequestBody Bicho bicho, @RequestParam String token) {
-        if (securityService.tokenDeValidacion(token)) {
+        if (securityService.tokenDeCreacion(token)) {
             return new ResponseEntity<Bicho>(bichoRepository.save(bicho), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -63,7 +63,7 @@ public class BichoController {
     //No hace falta que pongas en el cuerpo del put el tuberculo con tuberculoid
     @PutMapping("/BichoPut/put/{id}")
     public ResponseEntity<Bicho> updateBicho(@PathVariable Integer id, @RequestBody Bicho nuevoBicho, @RequestParam String token) {
-        if (!securityService.tokenDeValidacion(token)) {
+        if (!securityService.tokenDeValidacion(id, token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         } else {
             Bicho bicho = new Bicho();
@@ -82,7 +82,7 @@ public class BichoController {
     @DeleteMapping("/BichoDelete/delete/{id}")
     public ResponseEntity<Bicho> deleteBicho(@PathVariable Integer id, @RequestParam String token) {
         ResponseEntity<Bicho> responseEntity = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        if (securityService.tokenDeValidacion(token)) {
+        if (securityService.tokenDeValidacion(id, token)) {
             Bicho salida = new Bicho();
             if (bichoRepository.existsById(id)) {
                 salida = bichoRepository.findById(id).get();

@@ -23,6 +23,7 @@ public class Tuberculo implements Serializable {
     private Date fecha_caducidad;
     private String estado;
     private String observaciones;
+    private String token;
 
     @OneToMany(mappedBy = "tuberculoid", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JsonIgnore

@@ -20,4 +20,6 @@ public interface BichoRepository extends JpaRepository<Bicho, Integer> {
     //Es importante que sepas que para acceder a los campos de tubérculo uses el atributo que relaciona ambos modelos.
     @Query("select b.nombre from Bicho b where b.tuberculoid.id = :tuberculoid")
     public List<String> getNombreBichoByTuberculoId(Integer tuberculoid);
+
+    public Bicho findByIdAndToken(Integer id, String token);
 }

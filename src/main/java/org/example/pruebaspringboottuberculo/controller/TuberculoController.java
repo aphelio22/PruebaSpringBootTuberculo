@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/tuberculo")
 public class TuberculoController {
@@ -19,10 +21,15 @@ public class TuberculoController {
     @Autowired
     private TuberculoRepository tuberculoRepository;
 
+    @GetMapping("/todoTuberculo")
+    public List<Tuberculo> getAll() {
+        return tuberculoRepository.findAll();
+    }
+
     @DeleteMapping("/deleteTuberculo/{id}")
     public ResponseEntity<Tuberculo> deleteTuberculoById(@PathVariable Integer id, @RequestParam String token) {
         ResponseEntity<Tuberculo> responseEntity = new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        if (securityService.tokenDeValidacion(token)){
+        if (securityService.tokenDeValidacion(id, token)){
             Tuberculo salida = new Tuberculo();
             if (tuberculoRepository.existsById(id)) {
                 salida = tuberculoRepository.findById(id).get();
